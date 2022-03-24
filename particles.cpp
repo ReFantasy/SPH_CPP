@@ -39,11 +39,18 @@ void Particles::Draw( const GLSLShader &shader)
 	shader.setInt(std::string("triangle_num_per_circle"),triangle_num_of_circle);
 	shader.setFloat(std::string("circle_radius"),particle_radius);
 
+	// 绑定顶点数组对象
     glBindVertexArray(VAO);
-	//glPointSize(1);
+
+	// 更新粒子位置数据到GPU
+	glBufferData(GL_ARRAY_BUFFER, _vertices.size() * sizeof(Vertex), &_vertices[0],GL_DYNAMIC_DRAW);
+
+	// 绘制
 	glDrawArrays(GL_POINTS,0,_vertices.size());
+
+	// 解除绑定
     glBindVertexArray(0);
 	glUseProgram(0);
-//    glUseProgram(0);
+
 }
 

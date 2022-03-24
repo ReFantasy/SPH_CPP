@@ -21,5 +21,5 @@ link_libraries(glew)
 #GLM
 include_directories("/usr/local/Cellar/glm/0.9.9.8/include")
 
-add_executable(sph main.cpp particles.h particles.cpp glsl_shader.h sph.cpp sph.h)
+add_executable(sph main.cpp particles.h particles.cpp glsl_shader.h sph.cpp sph.h kernel.cpp kernel.h)
 

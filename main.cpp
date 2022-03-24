@@ -1,8 +1,5 @@
-#include "basic_model.h"
-#include <GLFW/glfw3.h>
 #include "sph.h"
-Particles mesh;
-
+#include <GLFW/glfw3.h>
 // key and mouse callback
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
 //void MOUSE_BUTTON_CALLBACK(GLFWwindow *window, int button, int action, int mods);
@@ -48,7 +45,7 @@ int main(int argc, char *argv[])
 	/* Loop until the user closes the window */
 	while (!glfwWindowShouldClose(window))
 	{
-		//glfwSetWindowTitle(window, ("Base SPH  fps:" + std::to_string(glfwGetTimerFrequency())).c_str());
+		//glfwSetWindowTitle(window, ("Base SPH  fps:" + std::to_string(glfwGetTimerValue())).c_str());
 
 		/* Render here */
 		glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);

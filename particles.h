@@ -1,10 +1,9 @@
 #ifndef __SIMPLE_MODEL_H__
 #define __SIMPLE_MODEL_H__
-
-#include "GL/glew.h"
-#include "glm/glm.hpp"
 #include <string>
 #include <vector>
+
+#include "glm/glm.hpp"
 #include "glsl_shader.h"
 
 struct Vertex
@@ -13,7 +12,10 @@ struct Vertex
 	glm::vec3 Position = glm::vec3{ 0, 0, 0 };
 
 	// normal
-	//glm::vec3 Normal = glm::vec3{0, 1, 0};
+	glm::vec3 velocity = glm::vec3{0, 0, 0};
+
+	// acceleration
+	glm::vec3  a = glm::vec3 {0,0,0};
 
 	// color
 	glm::vec3 Color = glm::vec3{ 1, 0, 0 };
@@ -25,6 +27,7 @@ struct Vertex
 
 class Particles
 {
+	friend class SPH;
 public:
 
 	bool GenGLBuffers();
@@ -39,7 +42,7 @@ protected:
 
 private:
 	GLuint VAO = 0, VBO = 0;
-	int triangle_num_of_circle = 10;
+	int triangle_num_of_circle = 6;
 
 };
 
