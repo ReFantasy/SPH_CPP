@@ -4,18 +4,18 @@
 
 #include "sph.h"
 #include "kernel.h"
-#define ACCE 
+#define ACCE
 int n = 20;
 float dist_per_particle = 0.5 / n;
 float s = dist_per_particle * 2;
-float density_0 = 100;
-float k1 = 50;
-float k2 = 25;
-float viscosity = 0.005;
+float density_0 = 1000;
+float k1 = 30;
+float k2 = 3;
+float viscosity = 0.05;
 float m_v = dist_per_particle * dist_per_particle * 0.8;
 float mass = density_0 * m_v;
 // 积分步长
-float dt = 0.001;
+float dt = 2e-4;
 // 重力加速度
 glm::vec3 g = { 0,-9.8,0 };
 
@@ -27,7 +27,7 @@ void display()
 	
 	for (int k = 0; k < 10; k++)
 	{
-		grid.grid_size = 0.1;
+		grid.grid_size = s*2;
 		grid.Reset();
 		for (int i = 0; i < n * n; i++)
 		{
@@ -124,7 +124,11 @@ void SPH::Substep()
 		auto& d = particles._vertices[i].density;
 		d = 0;
 
+#ifdef ACCE
+		for(auto j:grid.Findneighbor(particles._vertices[i].Position[0], particles._vertices[i].Position[1]))
+#else
 		for (int j = 0; j < particles._vertices.size(); j++)
+#endif
 		{
 			auto r = particles._vertices[i].Position - particles._vertices[j].Position;
 			d += mass * cubic_kernel(glm::vec2{ r[0],r[1] }, s);
@@ -174,7 +178,7 @@ void SPH::Substep()
 	// pressure forces
 	for (int i = 0; i < particles._vertices.size(); i++)
 	{
-		#ifdef ACCE
+#ifdef ACCE
 		for(auto j:grid.Findneighbor(particles._vertices[i].Position[0], particles._vertices[i].Position[1]))
 #else
 		for (int j = 0; j < particles._vertices.size(); j++)
@@ -203,25 +207,31 @@ void SPH::Advect()
 		vert.Position += vert.velocity * dt;
 
 		// 边界处理
+		float  cf = 0.3;
+		glm::vec3 norm_b = glm::vec3 (0,1,0);
+		glm::vec3 norm_u = glm::vec3 (0,-1,0);
+		glm::vec3 norm_l = glm::vec3 (1,0,0);
+		glm::vec3 norm_r = glm::vec3 (-1,0,0);
+
 		if (vert.Position[1] < -1)
-		{
+		{// b
 			vert.Position[1] = -1;
-			vert.velocity *= -1;
+			vert.velocity -= (1+cf)*glm::dot(vert.velocity, norm_b)*norm_b;
 		}
 		if (vert.Position[1] > 1)
-		{
+		{// u
 			vert.Position[1] = 1;
-			vert.velocity[1] = 0;
+			vert.velocity -= (1+cf)*glm::dot(vert.velocity, norm_u)*norm_u;
 		}
 		if (vert.Position[0] < -1)
-		{
+		{// l
 			vert.Position[0] = -1;
-			vert.velocity[0] = 0;
+			vert.velocity -= (1+cf)*glm::dot(vert.velocity, norm_l)*norm_l;
 		}
 		if (vert.Position[0] > 1)
-		{
+		{// r
 			vert.Position[0] = 1;
-			vert.velocity[0] = 0;
+			vert.velocity -= (1+cf)*glm::dot(vert.velocity, norm_r)*norm_r;
 		}
 	}
 }
