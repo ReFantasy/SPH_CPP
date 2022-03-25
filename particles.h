@@ -18,7 +18,7 @@ struct Vertex
 	glm::vec3  a = glm::vec3 {0,0,0};
 
 	// color
-	glm::vec3 Color = glm::vec3{ 1, 0, 0 };
+	glm::vec3 Color = glm::vec3{ 1, 0.8, 0.7 };
 
 	float density = 1.0;
 
@@ -38,7 +38,7 @@ public:
 	std::vector<Vertex> _vertices;
 
 protected:
-	float particle_radius = 0.005;
+	float particle_radius = 0.01;
 
 private:
 	GLuint VAO = 0, VBO = 0;

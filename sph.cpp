@@ -6,11 +6,11 @@
 #include "kernel.h"
 #define ACCE
 int n = 20;
-float dist_per_particle = 0.5 / n;
+float dist_per_particle = 1.0 / n;
 float s = dist_per_particle * 2;
 float density_0 = 1000;
-float k1 = 30;
-float k2 = 3;
+float k1 = 50;
+float k2 = 2.5;
 float viscosity = 0.05;
 float m_v = dist_per_particle * dist_per_particle * 0.8;
 float mass = density_0 * m_v;
@@ -27,7 +27,7 @@ void display()
 	
 	for (int k = 0; k < 10; k++)
 	{
-		grid.grid_size = s*2;
+		grid.grid_size = s*3;
 		grid.Reset();
 		for (int i = 0; i < n * n; i++)
 		{
