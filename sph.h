@@ -34,9 +34,9 @@ public:
 	void Substep();
 	void Advect();
 public:
-	std::shared_ptr<Grid> grid;
+	//std::shared_ptr<Grid> grid;
 
-private:
+//private:
 	Particles particles;
 	GLSLShader shader;
 };
@@ -57,12 +57,13 @@ public:
 	}
 	void Reset()
 	{
+		_grid_map.clear();
 		int grid_num = std::ceil(2.0/grid_size);
 		for(int i = 0;i<grid_num;i++)
 		{
 			for(int j = 0;j<grid_num;j++)
 			{
-				//_grid_map[std::pair<int,int>(i,j)].clear();
+				_grid_map[std::pair<int, int>(i, j)] = std::vector<int>{};
 			}
 		}
 	}
