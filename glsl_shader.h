@@ -201,7 +201,7 @@ class GLSLShader
 		std::string gs = R"(
 		#version 410 core
         layout(points) in ;
-        layout(triangle_strip, max_vertices = 240) out; // 注意输出类型
+        layout(triangle_strip, max_vertices = 146) out; // 注意输出类型
         uniform int triangle_num_per_circle;
 		uniform float circle_radius;
 

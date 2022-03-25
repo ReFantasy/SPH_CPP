@@ -1,3 +1,6 @@
+#ifdef _WIN32
+#define GLEW_STATIC
+#endif
 #include "sph.h"
 #include <GLFW/glfw3.h>
 // key and mouse callback
